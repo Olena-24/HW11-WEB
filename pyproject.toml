@@ -13,6 +13,9 @@ fastapi = "^0.110.0"
 sqlalchemy = "^2.0.29"
 uvicorn = "^0.29.0"
 greenlet = "^3.0.3"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+libgravatar = "^1.0.4"
+passlib = "^1.7.4"
 
 
 [build-system]

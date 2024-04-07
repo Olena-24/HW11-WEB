@@ -1,20 +1,32 @@
-import uvicorn
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
+import uvicorn
 
 from src.database.db import get_db
-from src.routes import todos
+from src.routes import todos, auth
+
 
 app = FastAPI()
 
-app.include_router(todos.router, prefix="/api")
+origins = ["*"]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(auth.router, prefix="/api")
+app.include_router(todos.router, prefix="/api")
 
 
 @app.get("/")
 def index():
-    return {"message": "Contacts Application"}
+    return {"message": "Contact Book Application"}
 
 
 @app.get("/api/healthchecker")
@@ -29,8 +41,3 @@ async def healthchecker(db: AsyncSession = Depends(get_db)):
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail="Error connecting to the database")
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app", host="localhost", port=8000, reload=True
-    )

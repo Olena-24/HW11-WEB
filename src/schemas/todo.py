@@ -16,14 +16,14 @@ class ContactUpdateSchema(ContactSchema):
     completed: bool
 
 
-class ContactResponse(BaseModel):
+class ContactResponse(ContactSchema):
     id: int = 1
-    title: str
-    description: str
-    completed: bool
+    # title: str
+    # description: str
+    # completed: bool
     created_at: datetime | None
     updated_at: datetime | None
-    user: UserResponse | None
+    user_id: int | None
 
     class Config:
         from_attributes = True

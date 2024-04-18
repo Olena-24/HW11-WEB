@@ -40,6 +40,7 @@ async def get_todo(todo_id: int = Path(ge=1), db: AsyncSession = Depends(get_db)
 async def create_todo(body: ContactSchema, db: AsyncSession = Depends(get_db),
                       user: User = Depends(auth_service.get_current_user)):
     todo = await repositories_todos.create_todo(body, db, user)
+    print(todo)
     return todo
 
 
